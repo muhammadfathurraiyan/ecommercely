@@ -2,6 +2,7 @@
 import { ProductSchema } from "@/lib/types";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 
 type TModal = {
   setAction: React.Dispatch<
@@ -46,12 +47,35 @@ const Create = ({ setAction }: TModal) => {
 
     const response = await fetch("http://localhost:3000/api", requestOptions);
     const newResponse = await response.json();
-    if (newResponse?.message === "error") {
-      setError(newResponse.message);
-    } else {
-      router.refresh();
-      setAction({ status: false, from: "string", id: "string" });
+
+    if (newResponse?.message) {
+      toast.success(newResponse.message, {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
+
+    if (newResponse?.message.includes("error")) {
+      toast.error(newResponse.message, {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+
+    setAction({ status: false, from: "", id: "" });
+    router.refresh();
   };
   return (
     <form action={formAction} className="flex flex-col gap-6">
@@ -125,6 +149,7 @@ const Create = ({ setAction }: TModal) => {
           Tambah
         </button>
       </div>
+      <ToastContainer />
     </form>
   );
 };

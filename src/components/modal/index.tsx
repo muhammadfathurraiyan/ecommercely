@@ -35,12 +35,12 @@ export default function Modal({ setAction, action }: TModal) {
     <section
       className={`${
         action.status ? "visible opacity-100" : "invisible opacity-0"
-      } duration-500 fixed inset-0 flex items-center justify-center bg-neutral-950/80`}
+      } duration-500 fixed inset-0 flex items-center justify-center bg-neutral-950/80 p-3`}
     >
       <div
         className={`${
           action.status ? "translate-y-0" : "translate-y-10"
-        } p-8 bg-neutral-800 rounded-lg duration-300 w-[40vw] flex flex-col gap-8`}
+        } p-8 bg-neutral-800 rounded-lg duration-300 w-[40vw] max-md:w-full flex flex-col gap-8`}
       >
         <div>
           <h1 className="font-bold text-2xl">Form {action.from}</h1>

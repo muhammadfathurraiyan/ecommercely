@@ -9,7 +9,7 @@ export default async function page() {
   const data = await response.json();
   return (
     <main className="grid grid-cols-8 min-h-screen">
-      <div className="col-span-2 bg-neutral-900 h-screen relative">
+      <div className="col-span-2 bg-neutral-900 h-screen relative max-md:hidden">
         <div className="absolute inset-0 p-8 h-screen flex flex-col justify-between">
           <h1 className="font-bold text-2xl">Commercely.</h1>
           <p className="text-xs items-center">
@@ -25,8 +25,8 @@ export default async function page() {
           </p>
         </div>
       </div>
-      <div className="col-span-6 relative">
-        <div className="p-8 absolute inset-0 overflow-auto scrollbar-hide flex flex-col gap-8">
+      <div className="col-span-6 max-md:col-span-8 relative">
+        <div className="p-8 max-md:p-3 absolute inset-0 overflow-auto scrollbar-hide flex flex-col gap-8">
           <Table data={data} />
         </div>
       </div>

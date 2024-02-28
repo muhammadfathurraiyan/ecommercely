@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       },
     });
 
-    return Response.json({ message: "Sukses manginput data", response });
+    return Response.json({ message: "Sukses menginput data", response });
   } catch (error: unknown) {
     return Response.json({ message: "Ups terdapat error", error });
   }

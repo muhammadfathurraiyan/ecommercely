@@ -70,46 +70,48 @@ export default function DateSearchBox({ setProduct, product }: TProduct) {
         onClick={handleToggleClick}
         className={`${
           !toggle
-            ? "bg-green-700 hover:bg-green-950"
-            : "bg-red-700 hover:bg-red-950 mb-16"
-        } p-2 duration-300 rounded`}
+            ? "bg-green-700 hover:bg-green-950 border-green-700 hover:border-green-950"
+            : "bg-red-700 hover:bg-red-950 mb-16 border-red-700 hover:border-red-950 max-md:mb-[6.5rem]"
+        } p-2 duration-300 rounded border`}
       >
         {!toggle ? <FaCalendarAlt /> : <FaTimes />}
       </div>
       <div
         className={`${
           toggle ? "visible opacity-100" : "invisible opacity-0"
-        } duration-300 flex items-center gap-2 absolute top-14 z-10 right-0`}
+        } duration-300 flex items-center max-md:items-end max-md:flex-col gap-2 absolute top-14 z-10 right-0`}
       >
-        <div className="flex flex-col gap-1 relative">
-          <label
-            htmlFor="title"
-            className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
-          >
-            Dari
-          </label>
-          <input
-            id="dari"
-            name="dari"
-            type="date"
-            onChange={handleDari}
-            className="py-1 px-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
-          />
-        </div>
-        <div className="flex flex-col gap-1 relative">
-          <label
-            htmlFor="stock"
-            className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
-          >
-            Sampai
-          </label>
-          <input
-            id="sampai"
-            name="sampai"
-            type="date"
-            onChange={handleSampai}
-            className="py-1 px-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
-          />
+        <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-1 relative">
+            <label
+              htmlFor="title"
+              className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
+            >
+              Dari
+            </label>
+            <input
+              id="dari"
+              name="dari"
+              type="date"
+              onChange={handleDari}
+              className="py-1 px-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
+            />
+          </div>
+          <div className="flex flex-col gap-1 relative">
+            <label
+              htmlFor="stock"
+              className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
+            >
+              Sampai
+            </label>
+            <input
+              id="sampai"
+              name="sampai"
+              type="date"
+              onChange={handleSampai}
+              className="py-1 px-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
+            />
+          </div>
         </div>
         <button
           onClick={handleFilterDate}

@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { FaEye, FaPen, FaTrash } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaCaretDown, FaEye, FaPen, FaTrash } from "react-icons/fa";
 import Modal from "./modal";
 import SearchBox from "./SearchBox";
 import DateSearchBox from "./DateSearchBox";
@@ -19,6 +19,7 @@ type TData = {
 export default function Table({ data }: TData) {
   const [action, setAction] = useState({ status: false, from: "", id: "" });
   const [product, setProduct] = useState(data);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
 
   const formatDate = (data: Date) => {
     const result = new Date(data);
@@ -30,21 +31,49 @@ export default function Table({ data }: TData) {
     return date;
   };
 
-  
-  // untuk terbesar dan terkecil
-  const handleStock = () => {};
+  const sortData = (key: string) => {
+    let direction = "ascending";
+    if (sortConfig.key === key && sortConfig.direction === "ascending") {
+      direction = "descending";
+    }
+    setSortConfig({ key, direction });
+    const sortedData = [...product].sort((a, b) => {
+      //@ts-ignore
+      if (a[key] < b[key]) {
+        return direction === "ascending" ? -1 : 1;
+      }
+      //@ts-ignore
+      if (a[key] > b[key]) {
+        return direction === "ascending" ? 1 : -1;
+      }
+      return 0;
+    });
+    setProduct(sortedData);
+  };
 
-  // untuk terbesar dan terkecil
-  const handleSold = () => {};
+  const handleStock = () => {
+    sortData("stock");
+  };
 
-  // untuk ascending dan descending
-  const handleTitle = () => {};
+  const handleSold = () => {
+    sortData("sold");
+  };
 
-  // untuk terlama dan terbaru
-  const handleTanggalTransaksi = () => {};
+  const handleTitle = () => {
+    sortData("title");
+  };
 
-  // untuk ascending dan descending
-  const handleCategory = () => {};
+  const handleTanggalTransaksi = () => {
+    sortData("createdAt");
+  };
+
+  const handleCategory = () => {
+    sortData("category");
+  };
+
+  useEffect(() => {
+    setProduct(data);
+  }, [data]);
 
   return (
     <>
@@ -53,7 +82,7 @@ export default function Table({ data }: TData) {
         <p>Table of Products.</p>
       </div>
       <div className="flex flex-col gap-4 items-start">
-        <div className="flex items-start justify-between w-full">
+        <div className="flex max-md:flex-col max-md:gap-4 items-start justify-between w-full">
           <button
             onClick={() =>
               setAction({ status: !action.status, from: "tambah", id: "" })
@@ -62,7 +91,7 @@ export default function Table({ data }: TData) {
           >
             Tambah
           </button>
-          <div className="flex items-start gap-4 relative">
+          <div className="flex items-start md:gap-4 max-md:justify-between max-md:w-full relative">
             <SearchBox setProduct={setProduct} product={product} />
             <DateSearchBox setProduct={setProduct} product={product} />
           </div>
@@ -72,26 +101,37 @@ export default function Table({ data }: TData) {
             <thead className="text-xs uppercase bg-neutral-900">
               <tr>
                 <th className="px-6 py-3">No</th>
-                <th onClick={handleTitle} className="px-6 py-3">
-                  Nama Barang
+                <th onClick={handleTitle} className="px-6 py-3 cursor-pointer">
+                  <p className="flex items-center">
+                    Nama Barang
+                    <FaCaretDown />
+                  </p>
                 </th>
                 <th onClick={handleStock} className="px-6 py-3 cursor-pointer">
-                  Stock
+                  <p className="flex items-center">
+                    Stock <FaCaretDown />
+                  </p>
                 </th>
                 <th onClick={handleSold} className="px-6 py-3 cursor-pointer">
-                  Jumlah Terjual
+                  <p className="flex items-center">
+                    Jumlah Terjual <FaCaretDown />
+                  </p>
                 </th>
                 <th
                   onClick={handleTanggalTransaksi}
                   className="px-6 py-3 cursor-pointer"
                 >
-                  Tanggal Transaksi
+                  <p className="flex items-center">
+                    Tanggal Transaksi <FaCaretDown />
+                  </p>
                 </th>
                 <th
                   onClick={handleCategory}
                   className="px-6 py-3 cursor-pointer"
                 >
-                  Jenis Barang
+                  <p className="flex items-center">
+                    Jenis Barang <FaCaretDown />
+                  </p>
                 </th>
                 <th className="px-6 py-3">Aksi</th>
               </tr>

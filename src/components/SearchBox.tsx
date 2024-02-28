@@ -36,7 +36,7 @@ export default function SearchBox({ setProduct, product }: TProduct) {
           item.title.toLowerCase().includes(searchText) ||
           item.sold.toString().toLowerCase().includes(searchText) ||
           item.stock.toString().toLowerCase().includes(searchText) ||
-          item.category.toString().toLowerCase().includes(searchText)||
+          item.category.toString().toLowerCase().includes(searchText) ||
           item.createdAt.toString().toLowerCase().includes(searchText)
       );
       setProduct(filteredResults);
@@ -48,13 +48,13 @@ export default function SearchBox({ setProduct, product }: TProduct) {
   }, []);
 
   return (
-    <form action="" className="flex items-center gap-2 relative">
+    <form action="" className="flex items-center gap-2 relative max-md:w-full">
       <input
         id="title"
         name="title"
         type="text"
         onChange={(e) => handleSearch(e)}
-        className="pl-8 pr-2 py-1 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
+        className="pl-8 max-md:w-full pr-2 py-1 max-md:mr-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
       />
       <div className="absolute left-2">
         <FaMagnifyingGlass />

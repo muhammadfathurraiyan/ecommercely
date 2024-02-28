@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { toast } from "react-toastify";
 
 type TModal = {
   setAction: React.Dispatch<
@@ -34,7 +34,16 @@ const Delete = ({ setAction, action }: TModal) => {
 
     const result = await response.json();
     if (result?.message) {
-      console.log(result.message);
+      toast.success(result.message, {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
     setAction({ status: false, from: "", id: "" });
     router.refresh();
