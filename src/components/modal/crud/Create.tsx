@@ -45,7 +45,7 @@ const Create = ({ setAction }: TModal) => {
       redirect: "follow",
     };
 
-    const response = await fetch("http://localhost:3000/api", requestOptions);
+    const response = await fetch("https://commercely-mfr.vercel.app/api", requestOptions);
     const newResponse = await response.json();
 
     if (newResponse?.message) {

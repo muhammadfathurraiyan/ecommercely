@@ -27,7 +27,7 @@ const Read = ({ setAction, action }: TModal) => {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api?id=${action.id}`)
+    fetch(`https://commercely-mfr.vercel.app/api?id=${action.id}`)
       .then((response) => response.json())
       .then((result) => setData(result));
   }, []);

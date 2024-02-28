@@ -5,7 +5,7 @@ import Table from "@/components/Table";
 export const revalidate = 0;
 
 export default async function page() {
-  const response = await fetch("http://localhost:3000/api");
+  const response = await fetch("https://commercely-mfr.vercel.app/api");
   const data = await response.json();
   return (
     <main className="grid grid-cols-8 min-h-screen">

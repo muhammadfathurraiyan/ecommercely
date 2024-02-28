@@ -28,7 +28,7 @@ const Delete = ({ setAction, action }: TModal) => {
       },
     };
     const response = await fetch(
-      `http://localhost:3000/api?id=${id}`,
+      `https://commercely-mfr.vercel.app/api?id=${id}`,
       requestOptions
     );
 

@@ -48,7 +48,7 @@ const Update = ({ setAction, action }: TModal) => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api?id=${action.id}`)
+    fetch(`https://commercely-mfr.vercel.app/api?id=${action.id}`)
       .then((response) => response.json())
       .then((result) => setData(result));
   }, []);
@@ -81,7 +81,7 @@ const Update = ({ setAction, action }: TModal) => {
       body: JSON.stringify(result.data),
     };
 
-    const response = await fetch(`http://localhost:3000/api`, requestOptions);
+    const response = await fetch(`https://commercely-mfr.vercel.app/api`, requestOptions);
     const newResponse = await response.json();
 
     if (newResponse?.message) {
