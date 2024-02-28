@@ -1,3 +1,6 @@
+"use client"
+import { useEffect, useState } from "react";
+
 type TModal = {
   setAction: React.Dispatch<
     React.SetStateAction<{
@@ -6,9 +9,42 @@ type TModal = {
       id: string;
     }>
   >;
+  action: {
+    status: boolean;
+    from: string;
+    id: string;
+  };
 };
 
-const Read = ({ setAction }: TModal) => {
+const Read = ({ setAction, action }: TModal) => {
+  const [data, setData] = useState({
+    id: "",
+    createdAt: "" as unknown as Date,
+    title: "",
+    stock: "",
+    sold: "",
+    category: "",
+  });
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/api?id=${action.id}`)
+      .then((response) => response.json())
+      .then((result) => setData(result));
+  }, []);
+  
+  const formatDate = (data: Date) => {
+    const result = new Date(data);
+    const year = result.getFullYear();
+    const rawMonth = result.getMonth() + 1;
+    const month =
+      rawMonth.toString().charAt(0) !== "0"
+        ? "0" + rawMonth.toString()
+        : rawMonth;
+    const day = result.getDate();
+    const date = `${day} - ${month} - ${year}`;
+    return date;
+  };
+
   return (
     <form action="" className="flex flex-col gap-6">
       <div className="flex flex-col gap-4">
@@ -23,6 +59,8 @@ const Read = ({ setAction }: TModal) => {
             id="title"
             name="title"
             type="text"
+            value={data.title}
+            disabled
             className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
           />
         </div>
@@ -37,6 +75,8 @@ const Read = ({ setAction }: TModal) => {
             id="stock"
             name="stock"
             type="text"
+            value={data.stock}
+            disabled
             className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
           />
         </div>
@@ -51,6 +91,24 @@ const Read = ({ setAction }: TModal) => {
             id="sold"
             name="sold"
             type="text"
+            value={data.sold}
+            disabled
+            className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
+          />
+        </div>
+        <div className="flex flex-col gap-1 relative">
+          <label
+            htmlFor="date"
+            className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
+          >
+            Tanggal transaksi :
+          </label>
+          <input
+            id="date"
+            name="date"
+            type="text"
+            value={formatDate(data.createdAt)}
+            disabled
             className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
           />
         </div>
@@ -65,6 +123,8 @@ const Read = ({ setAction }: TModal) => {
             id="category"
             name="category"
             type="text"
+            value={data.category}
+            disabled
             className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
           />
         </div>
@@ -74,11 +134,8 @@ const Read = ({ setAction }: TModal) => {
           onClick={() => setAction({ status: false, from: "", id: "" })}
           className="py-2 w-fit cursor-pointer px-4 bg-neutral-700 rounded hover:bg-neutral-900 duration-300"
         >
-          Cancel
+          Close
         </div>
-        <button className="py-2 w-fit cursor-pointer px-4 bg-green-700 rounded hover:bg-green-950 duration-300">
-          Tambah
-        </button>
       </div>
     </form>
   );

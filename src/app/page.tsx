@@ -26,7 +26,7 @@ export default async function page() {
         </div>
       </div>
       <div className="col-span-6 relative">
-        <div className="p-8 absolute inset-0 overflow-y-auto flex flex-col gap-8">
+        <div className="p-8 absolute inset-0 overflow-auto scrollbar-hide flex flex-col gap-8">
           <Table data={data} />
         </div>
       </div>

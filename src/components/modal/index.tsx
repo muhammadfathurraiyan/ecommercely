@@ -1,4 +1,7 @@
 import Create from "./crud/Create";
+import Delete from "./crud/Delete";
+import Read from "./crud/Read";
+import Update from "./crud/Update";
 
 type TModal = {
   setAction: React.Dispatch<
@@ -14,6 +17,19 @@ type TModal = {
     id: string;
   };
 };
+
+const Form = ({ setAction, action }: TModal) => {
+  if (action.from === "tambah") {
+    return <Create setAction={setAction} />;
+  } else if (action.from === "lihat") {
+    return <Read setAction={setAction} action={action} />;
+  } else if (action.from === "edit") {
+    return <Update action={action} setAction={setAction} />;
+  } else if (action.from === "hapus") {
+    return <Delete setAction={setAction} action={action} />;
+  }
+};
+
 export default function Modal({ setAction, action }: TModal) {
   return (
     <section
@@ -30,7 +46,7 @@ export default function Modal({ setAction, action }: TModal) {
           <h1 className="font-bold text-2xl">Form {action.from}</h1>
           <p>Form untuk {action.from} product</p>
         </div>
-        <Create setAction={setAction} />
+        <Form setAction={setAction} action={action} />
       </div>
     </section>
   );

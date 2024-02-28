@@ -1,6 +1,6 @@
 "use client";
 import { ProductSchema } from "@/lib/types";
-import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 type TModal = {
@@ -14,6 +14,7 @@ type TModal = {
 };
 
 const Create = ({ setAction }: TModal) => {
+  const router = useRouter();
   const [error, setError] = useState("");
   const formAction = async (data: FormData) => {
     const newProduct = {
@@ -33,7 +34,6 @@ const Create = ({ setAction }: TModal) => {
       setError(errorMessage);
       return;
     }
-    console.log("submit", result);
 
     const requestOptions: Object = {
       method: "POST",
@@ -49,14 +49,14 @@ const Create = ({ setAction }: TModal) => {
     if (newResponse?.message === "error") {
       setError(newResponse.message);
     } else {
-      revalidatePath("/");
+      router.refresh();
       setAction({ status: false, from: "string", id: "string" });
     }
   };
   return (
     <form action={formAction} className="flex flex-col gap-6">
       <div className="flex flex-col gap-4">
-        <p className="text-red-600">{error}</p>
+        <p className="text-red-600 text-xs">{error}</p>
         <div className="flex flex-col gap-1 relative">
           <label
             htmlFor="title"
@@ -85,7 +85,7 @@ const Create = ({ setAction }: TModal) => {
             className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
           />
         </div>
-        <div className="flex flex-col gap-1 relative">
+        <div className="flex flex-col gap-1">
           <label
             htmlFor="sold"
             className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"

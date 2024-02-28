@@ -1,3 +1,7 @@
+"use client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 type TModal = {
   setAction: React.Dispatch<
     React.SetStateAction<{
@@ -6,81 +10,57 @@ type TModal = {
       id: string;
     }>
   >;
+  action: {
+    status: boolean;
+    from: string;
+    id: string;
+  };
 };
 
-const Delete = ({ setAction }: TModal) => {
+const Delete = ({ setAction, action }: TModal) => {
+  const router = useRouter();
+  const deleteAction = async (data: FormData) => {
+    const id = data.get("id");
+    const requestOptions: Object = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(
+      `http://localhost:3000/api?id=${id}`,
+      requestOptions
+    );
+
+    const result = await response.json();
+    if (result?.message) {
+      console.log(result.message);
+    }
+    setAction({ status: false, from: "", id: "" });
+    router.refresh();
+  };
+
   return (
-    <form action="" className="flex flex-col gap-6">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1 relative">
-          <label
-            htmlFor="title"
-            className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
-          >
-            Nama Barang :
-          </label>
-          <input
-            id="title"
-            name="title"
-            type="text"
-            className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
-          />
-        </div>
-        <div className="flex flex-col gap-1 relative">
-          <label
-            htmlFor="stock"
-            className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
-          >
-            Stok :
-          </label>
-          <input
-            id="stock"
-            name="stock"
-            type="text"
-            className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
-          />
-        </div>
-        <div className="flex flex-col gap-1 relative">
-          <label
-            htmlFor="sold"
-            className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
-          >
-            Jumlah Terjual :
-          </label>
-          <input
-            id="sold"
-            name="sold"
-            type="text"
-            className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
-          />
-        </div>
-        <div className="flex flex-col gap-1 relative">
-          <label
-            htmlFor="category"
-            className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
-          >
-            Jenis Barang :
-          </label>
-          <input
-            id="category"
-            name="category"
-            type="text"
-            className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
-          />
-        </div>
-      </div>
+    <div className="flex flex-col gap-6">
+      <h1 className="text-2xl font-bold -mt-4">
+        Apakah anda yakin ingin menghapus data ini?
+      </h1>
       <div className="flex gap-4 items-center justify-end">
         <div
-          onClick={() => setAction({ status: false, from: "", id:"" })}
+          onClick={() => setAction({ status: false, from: "", id: "" })}
           className="py-2 w-fit cursor-pointer px-4 bg-neutral-700 rounded hover:bg-neutral-900 duration-300"
         >
           Cancel
         </div>
-        <button className="py-2 w-fit cursor-pointer px-4 bg-green-700 rounded hover:bg-green-950 duration-300">
-          Tambah
-        </button>
+
+        <form action={deleteAction}>
+          <input type="hidden" name="id" value={action.id} />
+          <button className="py-2 w-fit cursor-pointer px-4 bg-red-700 rounded hover:bg-red-950 duration-300">
+            Delete
+          </button>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
 
