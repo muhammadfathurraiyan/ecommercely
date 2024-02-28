@@ -6,3 +6,5 @@
 - jalankan npx prisma init di prompt
 - jalankan npx prisma migrate dev --name init
 - jalankan npm run dev
+
+Live demo : https://commercely-mfr.vercel.app/
