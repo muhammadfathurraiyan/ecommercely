@@ -45,7 +45,10 @@ const Create = ({ setAction }: TModal) => {
       redirect: "follow",
     };
 
-    const response = await fetch("https://commercely-mfr.vercel.app/api", requestOptions);
+    const response = await fetch(
+      "https://commercely-mfr.vercel.app/api",
+      requestOptions
+    );
     const newResponse = await response.json();
 
     if (newResponse?.message) {
@@ -109,7 +112,7 @@ const Create = ({ setAction }: TModal) => {
             className="p-2 rounded bg-transparent border border-neutral-500 focus:border-neutral-400 duration-300 outline-none"
           />
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 relative">
           <label
             htmlFor="sold"
             className="text-xs absolute p-1 bg-neutral-800 rounded -top-3 left-2"
